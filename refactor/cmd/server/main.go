@@ -8,7 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var addr = flag.String("addr", "localhost:8000", "http service address")
+var addr = flag.String("addr", "localhost:8100", "http service address")
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {

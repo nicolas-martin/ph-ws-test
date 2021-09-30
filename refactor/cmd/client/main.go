@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var addr = flag.String("addr", "localhost:8000", "http service address")
+var addr = flag.String("addr", "localhost:8100", "http service address")
 
 func main() {
 	flag.Parse()
@@ -29,7 +29,7 @@ func main() {
 		for range ticker.C {
 			err := client.Write(i)
 			if err != nil {
-				logrus.Errorf("error: %v, writing error", err)
+				logrus.Errorf("error: %s, writing error", err.Error())
 			}
 			i++
 		}

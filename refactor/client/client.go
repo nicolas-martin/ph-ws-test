@@ -58,7 +58,7 @@ func (conn *WebSocketClient) Connect() *websocket.Conn {
 		default:
 			ws, _, err := websocket.DefaultDialer.Dial(conn.configStr, nil)
 			if err != nil {
-				logrus.WithField("prefix", "connect").Errorf("Cannot connect to websocket: %s %w", conn.configStr, err)
+				logrus.WithField("prefix", "connect").Errorf("Cannot connect to websocket: %s %s", conn.configStr, err.Error())
 				continue
 			}
 			logrus.WithField("prefix", "connect").Infof("connected to websocket to %s", conn.configStr)
@@ -84,7 +84,7 @@ func (conn *WebSocketClient) listen() {
 				}
 				_, bytMsg, err := ws.ReadMessage()
 				if err != nil {
-					logrus.WithField("prefix", "listen").Errorf("Cannot read websocket message %w", err)
+					logrus.WithField("prefix", "listen").Errorf("Cannot read websocket message %s", err.Error())
 					conn.closeWs()
 					break
 				}
@@ -118,12 +118,12 @@ func (conn *WebSocketClient) listenWrite() {
 		ws := conn.Connect()
 		if ws == nil {
 			err := fmt.Errorf("conn.ws is nil")
-			logrus.WithField("prefix", "listenWrite").Errorf("No websocket connection %w", err)
+			logrus.WithField("prefix", "listenWrite").Errorf("No websocket connection %s", err.Error())
 			continue
 		}
 
 		if err := ws.WriteMessage(websocket.TextMessage, data); err != nil {
-			logrus.WithField("prefix", "listenWrite").Errorf("WebSocket Write Error %w", err)
+			logrus.WithField("prefix", "listenWrite").Errorf("WebSocket Write Error %s", err.Error())
 		}
 		logrus.WithField("prefix", "listenWrite").Infof("send: %s", data)
 	}

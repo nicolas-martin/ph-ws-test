@@ -61,7 +61,7 @@ func (c *Client) readPump() {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-				logrus.WithField("prefix", "readpump").Errorf("reading error %w", err)
+				logrus.WithField("prefix", "readpump").Errorf("reading error %s", err.Error())
 			}
 			break
 		}
@@ -121,7 +121,7 @@ func (c *Client) writePump() {
 func ServeWs(hub *Handler, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		logrus.WithField("prefix", "ServeWs").Errorf("cannot handle websocket request %w", err)
+		logrus.WithField("prefix", "ServeWs").Errorf("cannot handle websocket request %s", err.Error())
 		return
 	}
 	client := &Client{handler: hub, conn: conn, send: make(chan []byte, 256)}
