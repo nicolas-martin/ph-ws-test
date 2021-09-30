@@ -29,7 +29,7 @@ type WebSocketClient struct {
 // NewWebSocketClient create new websocket connection
 func NewWebSocketClient(host, channel string) (*WebSocketClient, error) {
 	conn := WebSocketClient{
-		sendBuf: make(chan []byte, 1),
+		sendBuf: make(chan []byte, 10),
 	}
 	conn.ctx, conn.ctxCancel = context.WithCancel(context.Background())
 
